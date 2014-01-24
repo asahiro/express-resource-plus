@@ -194,7 +194,7 @@ $(Resource.prototype, {
           ._record(action, method, wherePath);
       } 
 
-      self._map(method, path, before, callback)
+      self._map(method, path, before, callback.bind(actions))
         ._record(action, method, path);
     });
   },
@@ -353,12 +353,14 @@ var methods = {
   
   _load: function(name, version) {
     this._loaded = this._loaded || {};
-    
+    var routes_path
     if(!(name in this._loaded)) {
-      var appDir = this.settings.app_dir; // /app
-      var versionDir = path.join(appDir, version); // /app/v1
-      var controllers = path.join(versionDir, 'controllers'); // /app/v1/controllers
-      this._loaded[name] = require(path.join(controllers, name));
+      if(!(routes_dir = this.settings.routes_dir)) {
+        var appDir = this.settings.app_dir; // /app
+        var versionDir = path.join(appDir, version); // /app/v1
+        var routes_dir = path.join(versionDir, 'controllers'); // /app/v1/controllers
+      }
+      this._loaded[name] = require(path.join(routes_dir, name));
     }
     
     return this._loaded[name];
