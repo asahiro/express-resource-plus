@@ -353,7 +353,7 @@ var methods = {
   
   _load: function(name, version) {
     this._loaded = this._loaded || {};
-    var routes_path
+    var routes_dir
     if(!(name in this._loaded)) {
       if(!(routes_dir = this.settings.routes_dir)) {
         var appDir = this.settings.app_dir; // /app
